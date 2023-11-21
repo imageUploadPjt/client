@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, {useState} from "react";
-
+import {toast} from "react-toastify";
+import "./UploadForm.css"
 
 //아래는 클래스형 컴포넌트가 아닌, 함수형 컴포넌트
 // 함수형 컴포넌트는 상태 (라이프사이클) 관리를 Hooks로 함, 모든 훅스는 use로 시작
@@ -25,34 +26,30 @@ const UploadForm = () => {
                 headers: {"Content-Type" : "multipart/form-data"},
             });
             console.log({res})
-            alert("success!!")
+            toast.success("success!!");
+            //alert("success!!")
         } catch(err) {
-            alert("fail!!!!")
+            toast.success("fail!!");
             console.log(err)
         }
     }
     return (
         <form onSubmit={onSubmit}>
-            <label htmlFor="image">{fileName}</label>
-            <input 
-                id="image" //id는 event.target의 속성 key가 됨
-                type='file'
-                // (1) 브라우저 콘솔에서 event 값을 확인해서 디버깅
-                // onChange={(event) => {
-                //     console.log({event})
-                // }}
-
-                // (2) 
-                // onChange={(event) => {
-                //     const imageFile = event.target.files[0];
-                //     console.log({imageFile});
-                //     setFile(imageFile);
-                //     setFileName(imageFile.name);
-                // }}
-                onChange={imageSelectHandler}
-            />
-            <button type = "submit">제출</button>
-      </form>
+            <div className="file-dropper">
+                {fileName}
+                <input id="image" type='file' onChange={imageSelectHandler}/>
+            </div>
+            <button type = "submit" 
+            style={{
+                width:"100%",
+                height:40,
+                borderRadius:3,
+                cursor:"pointer",
+            }}>{/*style에 객체를 넣어줌*/}
+                제출
+            </button> 
+            {/*일반적인 html으로 하면 스트림으로 넣는데 이방식은 잘못되도 에러가 안나서 디버깅 시 어려움 */}
+        </form>
     );
 }
 
